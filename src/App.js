@@ -111,10 +111,10 @@ function App() {
         <br />
 
         <ul data-testid="TodoList">
-          
+        <div className='wrapper' >
             {list.map((item) => (
               <li key={item.id} className="Partcontainer" data-testid="todo">
-                <div >
+              
                 <h3
                   className="List-Item"
                   style={{
@@ -131,9 +131,9 @@ function App() {
                   onClick={() => deleteItem(item.id)}
                 >
                   <i>x</i>
-                </button></div>
+                </button>
               </li>
-            ))}
+            ))}</div>
           
         </ul>
       </div>
