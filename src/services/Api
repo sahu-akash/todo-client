@@ -1,0 +1,42 @@
+
+
+const url = "http://localhost:3005/"
+
+ async function getItems (){
+
+   const allItems= await fetch(`${url}`)
+   return allItems;
+}
+
+ async function postItems (data){
+    const response = await fetch(`${url}/store-data`, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          //'Content-Type': 'application/json'
+           'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify(data) // body data type must match "Content-Type" header
+      });
+      console.log(response.json());
+      return response.json();
+
+}
+
+ async function updateStatus(data){ 
+
+    const response = await fetch(`${url}/modify/data`, {
+        method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+         // 'Content-Type': 'application/json'
+           'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify(data) // body data type must match "Content-Type" header
+      });
+      console.log(response.json());
+      return response.json();
+
+
+}
+postItems({item:"Russia"})
+
+ 
