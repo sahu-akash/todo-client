@@ -107,14 +107,12 @@ function App() {
             ADD
           </button>
         </div>
-
         <br />
 
         <ul data-testid="TodoList">
-        <div className='wrapper' >
+          <div className="wrapper">
             {list.map((item) => (
               <li key={item.id} className="Partcontainer" data-testid="todo">
-              
                 <h3
                   className="List-Item"
                   style={{
@@ -133,8 +131,8 @@ function App() {
                   <i>x</i>
                 </button>
               </li>
-            ))}</div>
-          
+            ))}
+          </div>
         </ul>
       </div>
     </div>
