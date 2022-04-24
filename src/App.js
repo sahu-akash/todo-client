@@ -100,7 +100,7 @@ function App() {
           />
           <button
             className="btn-add"
-            onClick={(e) => addItem(newItem)}
+            onClick={() => addItem(newItem)}
             disabled={!newItem.length}
             data-testid="addButton"
           >
@@ -108,30 +108,29 @@ function App() {
           </button>
         </div>
         <br />
-
-        <ul data-testid="TodoList">
-          <div className="wrapper">
-            {list.map((item) => (
-              <li key={item.id} className="Partcontainer" data-testid="todo">
-                <h3
-                  className="List-Item"
-                  style={{
-                    textDecoration:
-                      item.status === "Done" ? "line-through" : "none",
-                  }}
-                  onClick={(e) => updateStatus(e, item.id, item.status)}
-                >
-                  {item.item}
-                </h3>
-                <button
-                  data-testid="deleteButton"
-                  className="btn"
-                  onClick={() => deleteItem(item.id)}
-                >
-                  <i>x</i>
-                </button>
-              </li>
-            ))}
+       
+        <ul>
+        <div className="wrapper">
+          {list.map((item) => (
+            <li key={item.id} className="Partcontainer">
+              <h3
+                style={{
+                  textDecoration:
+                    item.status === "Done" ? "line-through" : "none",
+                }}
+                onClick={(e) => updateStatus(e, item.id, item.status)}
+              >
+                {item.item}
+              </h3>
+              <button
+                data-testid="deleteButton"
+                className="btn"
+                onClick={() => deleteItem(item.id)}
+              >
+                <i>X</i>
+              </button>
+            </li>
+          ))} 
           </div>
         </ul>
       </div>

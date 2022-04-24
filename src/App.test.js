@@ -1,63 +1,76 @@
-import { render, fireEvent, cleanup, screen } from "@testing-library/react";
+import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 import App from "./App";
 import * as React from "react";
-
-// HACK TO MAKE CODESANDBOX WORK
 import expect from "expect";
-global.expect = expect;
-// require('jest-dom/extend-expect');
+import deleteAllItem from "./services/DeleteALL";
 
-test("TODO application is rendered", () => {
-  render(<App />);
-  const linkElement = screen.getByText(/MY TODO LIST/i);
-  expect(linkElement).toBeInTheDocument();
+global.expect = expect;
+
+// beforeEach(async() => {
+//   await deleteAllItem()
+
+// });
+
+
+
+
+afterEach(async () => {
+  await deleteAllItem();
 });
 
 test("renders the correct initial DOM", () => {
-  const doc = render(<App />);
-  const inputElement = doc.getByTestId("input");
+  render(<App />);
+  const linkElement = screen.getByText(/MY TODO LIST/i);
+  expect(linkElement).toBeInTheDocument();
+  const inputElement = screen.getByTestId("input");
   // The input should be blank.
   expect(inputElement.getAttribute("value")).toBe("");
 });
 
-test("creates a new todo", async () => {
-  const doc = render(<App />);
+test("Add button should be disable if there is nothing on the input box", () => {
+  render(<App />);
+  const inputElement = screen.getByTestId("input");
+  const button = screen.getByTestId("addButton");
+  // The input should be blank.
+  expect(inputElement.getAttribute("value")).toBe("");
+  expect(button).toHaveAttribute("disabled");
+});
 
-  const inputElement = doc.getByTestId("input");
-  const createButtonElement = doc.getByTestId("addButton");
+test("creates a new todo", async () => {
+  render(<App />);
+
+  const inputElement = screen.getByTestId("input");
+  const createButtonElement = screen.getByTestId("addButton");
 
   // Create the todo.
   fireEvent.change(inputElement, { target: { value: "Feed my dog." } });
   fireEvent.click(createButtonElement);
-
-  const todos = doc.getAllByTestId('TodoList');
-  const todo = doc.getByTestId('todo');
-  const todoNameElement = todo.lastChild;
- 
- console.log('everfirst chileything',todoNameElement);
-  // The name should be in the document as "Feed my dog."
-  expect(todoNameElement).toBeInTheDocument();
-  expect(todoNameElement).toHaveTextContent("Feed my dog.");
-
+  fireEvent.change(inputElement, { target: { value: "Feed my cat." } });
+  fireEvent.click(createButtonElement);
+  await waitFor(() => {
+    expect(screen.getAllByRole("listitem")).toHaveLength(2);
+  });
 });
 
 // // test2: Make sure that after creating a todo, if the
 // // user clicks the delete button, a todo goes away.
-// test("it deletes a todo", () => {
-//   const doc = render(<App />);
+test("it deletes a todo", async () => {
+  render(<App />);
 
-//   const inputElement = doc.getByTestId("input");
-//   const createButtonElement = doc.getByTestId("addButton");
+  const inputElement = screen.getByTestId("input");
+  const createButtonElement = screen.getByTestId("addButton");
 
-//   // Create the todo.
-//   fireEvent.change(inputElement, { target: { value: "Feed my cat." } });
-//   fireEvent.click(createButtonElement);
+  // Create the todo.
+  fireEvent.change(inputElement, { target: { value: "delete my cat." } });
+  fireEvent.click(createButtonElement);
 
-//   // Get the newly created todo.
-//   const todo = doc.queryByTestId("todo");
+  await waitFor(() => {
+    expect(screen.getAllByRole("listitem")).toHaveLength(1);
+  });
 
-//   // Click the delete button on the todo.
-//   const todoDeleteButton = doc.getByTestId("deleteButton");
-//   fireEvent.click(todoDeleteButton);
+  const delElement = screen.getByTestId("deleteButton");
 
-// });
+  // Click the delete button on the todo.
+  fireEvent.click(delElement);
+  expect(delElement).toBeInTheDocument();
+});

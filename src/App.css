@@ -1,7 +1,7 @@
 body {
  
   font-family: "Montserrat", sans-serif;
-  font-size: 20px;
+  font-size: 15px;
 }
 .app-title {
   text-align: center;
@@ -11,11 +11,11 @@ body {
 .wrapper{
  
   margin-left : 5%;
-  margin-top: 20PX;
+  margin-top: 20px;
   display: grid;
   grid-template-columns: 50% 50%;
   grid-column-gap: 0.5em;
-  padding-left: 30px;
+  
 }
 .btn {
   background: rgb(231, 133, 133);
